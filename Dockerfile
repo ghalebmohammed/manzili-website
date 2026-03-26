@@ -32,13 +32,8 @@ COPY . /app
 RUN composer install --no-dev --optimize-autoloader
 RUN npm install && npm run build
 
-# Optimize Laravel
-RUN php artisan config:cache && \
-    php artisan route:cache && \
-    php artisan view:cache
-
 # Expose port 10000 for Render
 EXPOSE 10000
 
-# Start standard Laravel server by migrating first then serving
-CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=10000
+# Start standard Laravel server by optimizing and migrating first
+CMD php artisan optimize:clear && php artisan config:cache && php artisan route:cache && php artisan view:cache && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=10000
