@@ -40,5 +40,5 @@ RUN php artisan config:cache && \
 # Expose port 10000 for Render
 EXPOSE 10000
 
-# Start standard Laravel server
-CMD php artisan serve --host=0.0.0.0 --port=10000
+# Start standard Laravel server by migrating first then serving
+CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=10000
