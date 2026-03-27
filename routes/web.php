@@ -68,3 +68,17 @@ Route::get('lang/{locale}', function ($locale) {
     }
     return redirect()->back();
 });
+
+Route::get('/create-admin', function () {
+    $user = \App\Models\User::firstOrCreate(
+    ['email' => 'admin@manzili.local'],
+    [
+        'name' => 'Admin Manzili',
+        'password' => \Illuminate\Support\Facades\Hash::make('password'),
+        'role' => 'admin',
+        'email_verified_at' => now(),
+        'otp_code' => null
+    ]
+    );
+    return '✅ تم إنشاء حساب الإدارة بنجاح! <br> الإيميل: <b>admin@manzili.local</b> <br> كلمة المرور: <b>password</b>';
+});
