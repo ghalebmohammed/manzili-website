@@ -40,6 +40,9 @@ class AuthController extends Controller
         }
         catch (\Exception $e) {
             \Log::error('Mail sending failed: ' . $e->getMessage());
+            return response()->json([
+                'message' => 'حدث خطأ أثناء محاولة إرسال الإيميل: ' . $e->getMessage()
+            ], 500);
         }
         // default store if seller
         if ($request->role === 'seller') {
@@ -126,7 +129,7 @@ class AuthController extends Controller
             Mail::to($user->email)->send(new VerifyEmailCode($otp));
         }
         catch (\Exception $e) {
-        // ignore
+            return response()->json(['message' => 'حدث خطأ أثناء محاولة إعادة إرسال الإيميل: ' . $e->getMessage()], 500);
         }
 
         return response()->json(['message' => 'تم إرسال رمز جديد إلى بريدك الإلكتروني.']);
