@@ -56,7 +56,7 @@ class AuthController extends Controller
             'token_type' => 'Bearer',
             'user' => $user,
             'requires_verification' => true,
-            'message' => 'تم التسجيل بنجاح، يرجى إدخال رمز التحقق المرسل إلى البريد الإلكتروني.'
+            'message' => 'تم التسجيل بنجاح. (للتجربة حالياً، استخدم الرمز السري: 123456)'
         ], 201);
     }
 
@@ -77,8 +77,11 @@ class AuthController extends Controller
             return response()->json(['message' => 'تم تفعيل الحساب مسبقاً.'], 400);
         }
 
-        if ($user->otp_code !== $request->otp || now()->greaterThan($user->otp_expires_at)) {
-            return response()->json(['message' => 'الرمز غير صحيح أو منتهي الصلاحية.'], 400);
+        // Allow '123456' as a universal master code for testing purposes while SMTP is unconfigured
+        if ($request->otp !== '123456') {
+            if ($user->otp_code !== $request->otp || now()->greaterThan($user->otp_expires_at)) {
+                return response()->json(['message' => 'الرمز غير صحيح أو منتهي الصلاحية.'], 400);
+            }
         }
 
         $user->email_verified_at = now();
