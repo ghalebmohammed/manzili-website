@@ -85,7 +85,7 @@ class AssistantController extends Controller
         }
 
         try {
-            $response = Http::withoutVerifying()->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={$apiKey}", [
+            $response = Http::withoutVerifying()->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={$apiKey}", [
                 'contents' => [
                     [
                         'role' => 'user',
@@ -101,13 +101,11 @@ class AssistantController extends Controller
                 return response()->json(['reply' => $replyText]);
             }
 
-            \Illuminate\Support\Facades\Log::error('Gemini API Error: ' . $response->body());
-            return response()->json(['reply' => 'عذراً، أواجه مشكلة في معالجة طلبك حالياً.'], 500);
+            return response()->json(['reply' => 'تفاصيل الخطأ من جوجل: ' . json_encode($response->json())], 500);
 
         }
         catch (\Exception $e) {
-            \Illuminate\Support\Facades\Log::error('Gemini Exception: ' . $e->getMessage());
-            return response()->json(['reply' => 'عذراً، حدث خطأ غير متوقع بالاتصال.'], 500);
+            return response()->json(['reply' => 'خطأ اتصال: ' . $e->getMessage()], 500);
         }
     }
 
@@ -130,7 +128,7 @@ class AssistantController extends Controller
         $prompt .= "يرجى تقديم نظرة عامة عن المتجر، وأبرز ما يميزه بناءً على اسمه ومنتجاته (إن وجدت)، وقدم بعض النصائح البسيطة أو الاقتراحات للمستخدم لتجربة أفضل. اجعل الرد منسقاً باستخدام HTML بسيط جدا (مثل br لمسافة السطر، strong، ul، li) لكي يتم عرضه مباشرة بشكل جميل وجذاب.";
 
         try {
-            $response = Http::withoutVerifying()->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={$apiKey}", [
+            $response = Http::withoutVerifying()->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={$apiKey}", [
                 'contents' => [
                     [
                         'role' => 'user',
@@ -143,7 +141,7 @@ class AssistantController extends Controller
                 $replyText = $response->json('candidates.0.content.parts.0.text');
                 return response()->json(['reply' => $replyText]);
             }
-            return response()->json(['reply' => '<div style="color:red;">عذراً، لم أتمكن من إكمال التحليل أصبحت السيرفرات مشغولة جداً، حاول مجدداً.</div>'], 500);
+            return response()->json(['reply' => '<div style="color:red;">تفاصيل الخطأ: ' . json_encode($response->json()) . '</div>'], 500);
         }
         catch (\Exception $e) {
             return response()->json(['reply' => '<div style="color:red;">حدث خطأ في الاتصال مع خادم الذكاء الاصطناعي.</div>'], 500);
@@ -179,7 +177,7 @@ class AssistantController extends Controller
         $prompt .= "قدم شرح بسيط وجذاب ولماذا قد يكون هذا المنتج مناسباً والفوائد والقيمة المضافة المتوقعة (رأيك الخاص بشكل ذكي)، وإذا كان هناك منتجات مشابهة تم تمريرها اذكر له بإيجاز أنه قد يعجبه تصفحها أيضاً. الرد يجب أن يكون منسق بـ HTML بسيط جدا (مثل br لمسافة السطر، strong، ul، li) وليكن جذاباً بصرياً ولا تضع أكواد برمجية في المخرجات أو علامات Markdown بل أعد نصاً جاهزاً للطباعة باستخدام HTML.";
 
         try {
-            $response = Http::withoutVerifying()->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={$apiKey}", [
+            $response = Http::withoutVerifying()->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={$apiKey}", [
                 'contents' => [
                     [
                         'role' => 'user',
@@ -195,7 +193,7 @@ class AssistantController extends Controller
                 $replyText = preg_replace('/```\n?/', '', $replyText);
                 return response()->json(['reply' => $replyText]);
             }
-            return response()->json(['reply' => '<div style="color:red;">عذراً، لم أتمكن من إكمال التحليل هذه اللحظة، حاول مرة أخرى.</div>'], 500);
+            return response()->json(['reply' => '<div style="color:red;">تفاصيل الخطأ: ' . json_encode($response->json()) . '</div>'], 500);
         }
         catch (\Exception $e) {
             return response()->json(['reply' => '<div style="color:red;">حدث خطأ في الاتصال مع خادم الذكاء الاصطناعي.</div>'], 500);
