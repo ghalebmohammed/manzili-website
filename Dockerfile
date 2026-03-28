@@ -35,5 +35,5 @@ RUN npm install && npm run build
 # Expose port 10000 for Render
 EXPOSE 10000
 
-# Start standard Laravel server by migrating and clearing cache first
-CMD php artisan migrate --force && php artisan optimize:clear && php artisan serve --host=0.0.0.0 --port=10000
+# Start standard Laravel server by migrating, linking storage, and clearing cache first
+CMD php artisan migrate --force && php artisan storage:link && php artisan optimize:clear && php artisan serve --host=0.0.0.0 --port=10000
