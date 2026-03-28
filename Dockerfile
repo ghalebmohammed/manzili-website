@@ -35,5 +35,8 @@ RUN npm install && npm run build
 # Expose port 10000 for Render
 EXPOSE 10000
 
+# Ensure no broken host symlinks block the storage link
+RUN rm -rf public/storage
+
 # Start standard Laravel server by migrating, linking storage, and clearing cache first
-CMD php artisan migrate --force && php artisan storage:link && php artisan optimize:clear && php artisan serve --host=0.0.0.0 --port=10000
+CMD php artisan migrate --force && (php artisan storage:link || true) && php artisan optimize:clear && php artisan serve --host=0.0.0.0 --port=10000
