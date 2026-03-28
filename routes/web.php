@@ -82,3 +82,11 @@ Route::get('/create-admin', function () {
     );
     return '✅ تم إنشاء حساب الإدارة بنجاح! <br> الإيميل: <b>admin@manzili.local</b> <br> كلمة المرور: <b>password</b>';
 });
+
+Route::get('/test-gemini', function () {
+    $apiKey = env('GEMINI_API_KEY');
+    if (!$apiKey)
+        return "No GEMINI_API_KEY found.";
+    $response = \Illuminate\Support\Facades\Http::withoutVerifying()->get("https://generativelanguage.googleapis.com/v1beta/models?key={$apiKey}");
+    return response()->json($response->json());
+});
