@@ -85,7 +85,7 @@ class AssistantController extends Controller
         }
 
         try {
-            $response = Http::withoutVerifying()->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={$apiKey}", [
+            $response = Http::withoutVerifying()->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={$apiKey}", [
                 'contents' => [
                     [
                         'role' => 'user',
@@ -128,7 +128,7 @@ class AssistantController extends Controller
         $prompt .= "يرجى تقديم نظرة عامة عن المتجر، وأبرز ما يميزه بناءً على اسمه ومنتجاته (إن وجدت)، وقدم بعض النصائح البسيطة أو الاقتراحات للمستخدم لتجربة أفضل. اجعل الرد منسقاً باستخدام HTML بسيط جدا (مثل br لمسافة السطر، strong، ul، li) لكي يتم عرضه مباشرة بشكل جميل وجذاب.";
 
         try {
-            $response = Http::withoutVerifying()->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={$apiKey}", [
+            $response = Http::withoutVerifying()->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={$apiKey}", [
                 'contents' => [
                     [
                         'role' => 'user',
@@ -177,7 +177,7 @@ class AssistantController extends Controller
         $prompt .= "قدم شرح بسيط وجذاب ولماذا قد يكون هذا المنتج مناسباً والفوائد والقيمة المضافة المتوقعة (رأيك الخاص بشكل ذكي)، وإذا كان هناك منتجات مشابهة تم تمريرها اذكر له بإيجاز أنه قد يعجبه تصفحها أيضاً. الرد يجب أن يكون منسق بـ HTML بسيط جدا (مثل br لمسافة السطر، strong، ul، li) وليكن جذاباً بصرياً ولا تضع أكواد برمجية في المخرجات أو علامات Markdown بل أعد نصاً جاهزاً للطباعة باستخدام HTML.";
 
         try {
-            $response = Http::withoutVerifying()->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={$apiKey}", [
+            $response = Http::withoutVerifying()->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={$apiKey}", [
                 'contents' => [
                     [
                         'role' => 'user',
