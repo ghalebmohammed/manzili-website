@@ -90,3 +90,12 @@ Route::get('/test-gemini', function () {
     $response = \Illuminate\Support\Facades\Http::withoutVerifying()->get("https://generativelanguage.googleapis.com/v1beta/models?key={$apiKey}");
     return response()->json($response->json());
 });
+
+// Fallback image proxy for Render ephemeral filesystem or broken symlinks
+Route::get('storage/{folder}/{file}', function ($folder, $file) {
+    $path = $folder . '/' . $file;
+    if (\Illuminate\Support\Facades\Storage::disk('public')->exists($path)) {
+        return \Illuminate\Support\Facades\Storage::disk('public')->response($path);
+    }
+    abort(404);
+})->where('file', '.*');
