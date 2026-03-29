@@ -255,7 +255,7 @@
                         </div>
                         <div class="card-body" style="padding-top: ${store.logo ? '35px' : '20px'};">
                             <div class="badges">
-                                <span class="badge" style="background:var(--primary); color:white;">${store.store_type || '{{ __('messages.miscellaneous') }}'}</span>
+                                <span class="badge" style="background:var(--primary); color:white;">${store.store_activity || store.store_type || '{{ __('messages.miscellaneous') }}'}</span>
                             </div>
                             <a href="/stores/${store.slug}" class="card-title">${store.name} ${store.kyc_status === 'approved' ? '<i class="fa-solid fa-circle-check" style="color:#25D366; font-size:14px;"></i>' : ''}</a>
                             <p class="card-text">${store.description ? store.description.substring(0,80)+'...' : '{{ __('messages.store_default_desc') }}'}</p>
