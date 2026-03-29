@@ -99,3 +99,23 @@ Route::get('storage/{folder}/{file}', function ($folder, $file) {
     }
     abort(404);
 })->where('file', '.*');
+
+Route::get('/seed-categories', function () {
+    $categories = [
+        ['name_ar' => 'المأكولات المنزلية', 'name_en' => 'Home-made Foods', 'slug' => 'home-food', 'icon' => 'fa-utensils'],
+        ['name_ar' => 'الحلويات والمعجنات', 'name_en' => 'Sweets & Pastries', 'slug' => 'sweets', 'icon' => 'fa-cookie-bite'],
+        ['name_ar' => 'العطور والبخور', 'name_en' => 'Perfumes & Incense', 'slug' => 'perfumes', 'icon' => 'fa-bottle-droplet'],
+        ['name_ar' => 'الاكسسوارات', 'name_en' => 'Accessories', 'slug' => 'accessories', 'icon' => 'fa-gem'],
+        ['name_ar' => 'مستحضرات التجميل والعناية', 'name_en' => 'Cosmetics & Skincare', 'slug' => 'cosmetics', 'icon' => 'fa-spa'],
+        ['name_ar' => 'إلكترونيات', 'name_en' => 'Electronics', 'slug' => 'electronics', 'icon' => 'fa-laptop'],
+        ['name_ar' => 'أعمال يدوية', 'name_en' => 'Handicrafts', 'slug' => 'handicrafts', 'icon' => 'fa-palette'],
+        ['name_ar' => 'الأزياء والملابس', 'name_en' => 'Fashion & Clothing', 'slug' => 'fashion', 'icon' => 'fa-shirt'],
+        ['name_ar' => 'الألعاب', 'name_en' => 'Toys & Games', 'slug' => 'toys', 'icon' => 'fa-gamepad'],
+    ];
+
+    foreach ($categories as $cat) {
+        \App\Models\Category::updateOrCreate(['slug' => $cat['slug']], $cat);
+    }
+
+    return '✅ تم تزويد قاعدة البيانات بالأقسام بنجاح!';
+});
