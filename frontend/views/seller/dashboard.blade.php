@@ -1072,7 +1072,10 @@
                 closeProductModal();
                 loadProducts();
                 loadDashboardData(); // update stats
-            } else { alert('{{ __('messages.check_fields_error') }}'); }
+            } else { 
+                const errorData = await res.json();
+                alert('خطأ: ' + (errorData.error || errorData.message || '{{ __('messages.check_fields_error') }}')); 
+            }
         } catch(e) {
             console.error(e);
             alert('حدث خطأ أثناء الاتصال بالخادم. يرجى المحاولة لاحقاً.');

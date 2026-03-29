@@ -119,3 +119,11 @@ Route::get('/seed-categories', function () {
 
     return '✅ تم تزويد قاعدة البيانات بالأقسام بنجاح!';
 });
+
+Route::get('/approve-stores', function () {
+    \App\Models\Store::where('kyc_status', '!=', 'approved')->update([
+        'kyc_status' => 'approved',
+        'status' => 'active'
+    ]);
+    return '✅ تم توثيق جميع المتاجر بنجاح! يمكنك الآن إضافة المنتجات.';
+});
